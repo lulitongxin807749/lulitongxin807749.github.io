@@ -1,0 +1,209 @@
+<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<style>
+body {
+	 font-family: sans-serif;
+	 font-size: 15px;
+}
+ .tree {
+	 transform: rotate(0deg);
+	 transform-origin: 50%;
+}
+ .tree ul {
+	 position: relative;
+	 padding: 1em 0;
+	 white-space: nowrap;
+	 margin: 0 auto;
+	 text-align: center;
+}
+ .tree ul::after {
+	 content: '';
+	 display: table;
+	 clear: both;
+}
+ .tree li {
+	 display: inline-block;
+	 vertical-align: top;
+	 text-align: center;
+	 list-style-type: none;
+	 position: relative;
+	 padding: 1em 0.5em 0 0.5em;
+}
+ .tree li::before, .tree li::after {
+	 content: '';
+	 position: absolute;
+	 top: 0;
+	 right: 50%;
+	 border-top: 1px solid #ccc;
+	 width: 50%;
+	 height: 1em;
+}
+ .tree li::after {
+	 right: auto;
+	 left: 50%;
+	 border-left: 1px solid #ccc;
+}
+ .tree li:only-child::after, .tree li:only-child::before {
+	 display: none;
+}
+ .tree li:only-child {
+	 padding-top: 0;
+}
+ .tree li:first-child::before, .tree li:last-child::after {
+	 border: 0 none;
+}
+ .tree li:last-child::before {
+	 border-right: 1px solid #ccc;
+	 border-radius: 0 5px 0 0;
+}
+ .tree li:first-child::after {
+	 border-radius: 5px 0 0 0;
+}
+ .tree ul ul::before {
+	 content: '';
+	 position: absolute;
+	 top: 0;
+	 left: 50%;
+	 border-left: 1px solid #ccc;
+	 width: 0;
+	 height: 1em;
+}
+ .tree li a {
+	 border: 1px solid #ccc;
+	 padding: 0.5em 0.75em;
+	 text-decoration: none;
+	 display: inline-block;
+	 border-radius: 5px;
+	 color: #333;
+	 position: relative;
+	 top: 1px;
+	 transform: rotate(0deg);
+}
+ .tree li a:hover {
+	 background: #e9453f;
+	 border: 1px solid #e9453f;
+}
+ .tree li a:hover + ul li::after, .tree li a:hover + ul li::before, .tree li a:hover + ul::before, .tree li a:hover + ul ul::before {
+	 border-color: #e9453f;
+}
+</style>
+
+<div>
+	<span>次序：</span>
+	<span id="order"></span>
+</div>
+
+<div class="tree">
+	<ul>
+	  <li>
+		<button class="reduce btn btn-outline-danger" style="">-</button>
+		<a href="#" class="root"></a>
+		<button class="add btn btn-outline-success" style="">+</button><ul><li><button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button><ul><li><button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button><ul><li><button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button></li><li><button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button></li></ul></li><li><button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button><ul><li><button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button></li><li><button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button></li></ul></li></ul></li><li><button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button><ul><li><button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button><ul><li><button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button></li><li><button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button></li></ul></li><li><button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button><ul><li><button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button></li><li><button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button></li></ul></li></ul></li></ul>
+	  </li>
+	</ul>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/5130b2efe9.js" crossorigin="anonymous"></script>
+<script>
+
+const str = '<button class="reduce btn btn-outline-danger">-</button><a href="#" class=""></a><button class="add btn btn-outline-success">+</button>'
+
+const target = document.querySelector('.tree')
+const observer = new MutationObserver(function(mutations) {
+	localStorage.setItem('theTree',target.innerHTML);
+});
+const config = { attributes: true, childList: true, characterData: true, subtree:true };
+observer.observe(target, config);
+
+
+$(()=>{
+	if(localStorage.getItem('theTree')){
+		$('.tree').html(localStorage.getItem('theTree'));
+	}
+
+	$('.root').on('click', e => {
+		let root = $('.tree').children('ul').children('li');
+		let queue = [];
+		let values = [];
+		
+		queue.push(root);
+		values.push(root.children('a').html());
+		
+		while(queue.length > 0){
+			let child = queue.shift();
+			child.children('ul').children('li').each(function(){
+				queue.push($(this));
+				let val = $(this).children('a').html();
+				if(val != '' && val != 'X'){
+					values.push(val);
+				}
+			});
+		}
+		
+		$('#order').html(values.join('-'));
+	});
+
+	$(document).on('click', '.add', e => {
+		let $sibling_ul = $(e.target).siblings('ul');
+		
+		if($sibling_ul.length){
+			$sibling_ul.append(`<li>${str}</li>`);
+		}else{
+			$(e.target).after(`<ul><li>${str}</li></ul>`);
+		}
+	});
+	
+	$(document).on('click', '.reduce', e => {
+		let $sibling_ul = $(e.target).siblings('ul')
+		
+		if($sibling_ul.children('li').length == 1){
+			$sibling_ul.remove();
+		}else{
+			$sibling_ul.children('li').last().remove();
+		}
+	});
+	
+	$(document).on('click', '.tree-a,a', e => {
+		let $this = $(e.target);
+		let val = $this.html();
+		let $parent = $this.parent().parent().parent();
+		//父節點 a
+		let $a = $parent.children('a');
+		
+		//如果父節點為X不可退回，若為空且點擊節點不為X也不可退回
+		if(($a.html() != '' && val != 'X') || $a.html() == 'X') return;
+		
+		if(val != 'X' && val != ''){
+			$a.html(val);
+			$this.html('X');
+		}else if(val == 'X'){
+			$this.html($a.html());
+			$a.html('');
+		}
+		$parent.children('button').toggle($a.html() == '');
+	});
+	
+	$(document).on('dblclick', '.tree-a,a', e => {
+		let $this = $(e.target);
+		let $sibling_ul = $this.siblings('ul');
+		
+		if($this.html() == 'X' || $sibling_ul.length > 0) return;
+		
+		$this.append('<input />');
+		$this.find('input').focus();
+	});
+	
+	$(document).on('focusout', 'input', e => {
+		let $this = $(e.target);
+		let val = $this.val();
+		let $parent = $this.parent();
+		$this.remove();
+		$parent.siblings().toggle(val == '');
+		$parent.html(val);
+	});
+	
+});
+
+</script>
